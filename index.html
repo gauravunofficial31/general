@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.jpg" type="image/x-icon">
+    <title>Happy Birthday My Love! 💕</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        /* Countdown Styles */
+#countdown-overlay {
+    background: radial-gradient(ellipse at center, #111 0%, #000 100%);
+}
+
+.floating-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-heart {
+    position: absolute;
+    color: rgba(255, 105, 180, 0.6);
+    font-size: 24px;
+    animation: float 8s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        opacity: 0.9;
+        text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    }
+    50% { 
+        opacity: 1;
+        text-shadow: 0 0 20px rgba(255, 105, 180, 0.9);
+    }
+}
+
+.pulse-glow {
+    animation: pulse-glow 2s infinite;
+}
+
+/* Admin Panel Styles */
+#admin-panel {
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 105, 180, 0.3);
+}
+
+#admin-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 105, 180, 0.5);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 99999;
+    color: pink;
+    transition: all 0.3s ease;
+}
+
+#admin-toggle:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        .dancing-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,182,193,0.9) 0%, rgba(255,105,180,0.7) 100%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Cursor trail effect - smoke/gas with hearts */
+        .cursor-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            width: 8px;
+            height: 8px;
+            background: rgba(255,182,193,0.6);
+            border-radius: 50%;
+            animation: trailFade 1s ease-out forwards;
+        }
+        
+        @keyframes trailFade {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.1);
+            }
+        }
+        
+        /* Heart particles */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9997;
+            color: #ff69b4;
+            font-size: 16px;
+            animation: heartFloat 2s ease-out forwards;
+        }
+        
+        @keyframes heartFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.3);
+            }
+        }
+        
+        /* Floating background animations */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            color: rgba(255,182,193,0.6);
+            font-size: 24px;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-40px) rotate(120deg); }
+            66% { transform: translateY(-20px) rotate(240deg); }
+        }
+        
+        /* Balloons and confetti for celebration */
+        .balloon {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9995;
+            font-size: 40px;
+            animation: balloonFloat 10s ease-in-out infinite;
+        }
+        
+        @keyframes balloonFloat {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            33% { transform: translateY(-50px) rotate(5deg); }
+            66% { transform: translateY(-25px) rotate(-3deg); }
+        }
+        
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9996;
+            width: 12px;
+            height: 12px;
+            background: #ff69b4;
+            animation: confettiFall 4s linear infinite;
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Streamers */
+        .streamer {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9994;
+            width: 100px;
+            height: 10px;
+            background: linear-gradient(90deg, #ff69b4, #ff1493, #ff69b4);
+            animation: streamerFall 3s linear infinite;
+        }
+        
+        @keyframes streamerFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(180deg); opacity: 0; }
+        }
+        
+        /* Gradient backgrounds */
+        .gradient-bg-1 {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        }
+        
+        .gradient-bg-2 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        .gradient-bg-3 {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+        
+        .gradient-bg-4 {
+            background: linear-gradient(135deg, #ff8a80 0%, #ff80ab 100%);
+        }
+        
+        .gradient-bg-5 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-bg-6 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        /* Pulse animation */
+        .pulse-heart {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Bounce animation */
+        .bounce-slow {
+            animation: bounce 3s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+        
+        /* Slide in animations */
+        .slide-in-left {
+            animation: slideInLeft 1s ease-out forwards;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 1s ease-out forwards;
+        }
+        
+        .slide-in-up {
+            animation: slideInUp 1s ease-out forwards;
+        }
+        
+        @keyframes slideInLeft {
+            0% { transform: translateX(-100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            0% { transform: translateY(100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Card hover effects */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(255,182,193,0.4);
+        }
+        
+        /* Glowing text effect */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(255,182,193,0.8);
+        }
+        
+        /* Navigation */
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff69b4, transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-link:hover::before {
+            left: 100%;
+        }
+        
+        /* Photo frame effect */
+        .photo-frame {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(255,182,193,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .photo-frame:hover {
+            transform: scale(1.08);
+            box-shadow: 0 25px 50px rgba(255,182,193,0.5);
+        }
+        
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,182,193,0.3), rgba(255,105,180,0.3));
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .photo-love-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+            font-size: 24px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* Celebration effects */
+        .celebration-bg {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24, #ff9ff3, #f368e0, #3742fa, #7bed9f);
+            background-size: 400% 400%;
+            animation: gradientShift 6s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Candle blown effect */
+        .candle-blown {
+            animation: blowOut 1s ease-out forwards;
+        }
+        
+        @keyframes blowOut {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Hide scrollbar but keep functionality */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255,182,193,0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff69b4, #ff1493);
+            border-radius: 10px;
+        }
+        
+        /* Special message page styling */
+        .special-message-bg {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .message-envelope {
+            background: linear-gradient(135deg, #fff6f6 0%, #ffecec 100%);
+            border: 2px solid #ffb6c1;
+            box-shadow: 0 10px 30px rgba(255,182,193,0.4);
+        }
+        
+        .heart-beat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Control Panel (Hidden) -->
+<div id="admin-panel" class="fixed bottom-4 right-4 bg-black border border-pink-500 p-4 rounded-lg shadow-xl z-[99999] hidden">
+    <h3 class="font-bold text-pink-400 mb-2">🔑 Admin Controls</h3>
+    <div class="flex flex-col space-y-2">
+        <input type="datetime-local" id="new-date-time" class="bg-gray-900 text-white p-2 rounded border border-pink-500">
+        <button onclick="updateCountdownEnd()" class="bg-pink-600 text-white px-3 py-2 rounded hover:bg-pink-700">
+            Update Countdown
+        </button>
+        <button onclick="skipCountdown()" class="bg-pink-900 text-pink-300 px-3 py-2 rounded hover:bg-pink-800">
+            Unlock Now
+        </button>
+    </div>
+</div>
+
+<!-- Countdown Overlay (Fullscreen Black Background) -->
+<div id="countdown-overlay" class="fixed inset-0 bg-black z-[9999] flex items-center justify-center">
+    <div class="text-center p-8 max-w-2xl">
+        <!-- Floating Hearts Background -->
+        <div class="floating-hearts">
+            <div class="floating-heart" style="left: 5%; top: 10%; animation-delay: 0s;">💕</div>
+            <div class="floating-heart" style="left: 15%; top: 30%; animation-delay: 1s;">💖</div>
+            <div class="floating-heart" style="left: 25%; top: 20%; animation-delay: 2s;">💗</div>
+        </div>
+        
+        <h1 class="text-4xl md:text-6xl font-bold text-pink-400 dancing-font mb-8 glow-text">
+            🎉 Happy Birthday Madam Jii! 🎉
+        </h1>
+        <p class="text-xl md:text-2xl text-pink-200 mb-8">
+            The celebration begins in...
+        </p>
+        <div id="countdown" class="text-5xl md:text-7xl font-bold text-white mb-8 dancing-font pulse-glow">
+            00:00:00
+        </div>
+        <div class="flex justify-center space-x-4 text-white">
+            <div class="text-center">
+                <div id="countdown-days" class="text-3xl font-bold">00</div>
+                <div class="text-sm">Days</div>
+            </div>
+            <div class="text-center">
+                <div id="countdown-hours" class="text-3xl font-bold">00</div>
+                <div class="text-sm">Hours</div>
+            </div>
+            <div class="text-center">
+                <div id="countdown-minutes" class="text-3xl font-bold">00</div>
+                <div class="text-sm">Minutes</div>
+            </div>
+            <div class="text-center">
+                <div id="countdown-seconds" class="text-3xl font-bold">00</div>
+                <div class="text-sm">Seconds</div>
+            </div>
+        </div>
+        <p class="text-pink-300 mt-8 text-sm">
+            (Only Gaurav can change these settings)
+        </p>
+    </div>
+</div>
+    
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts">
+        <div class="floating-heart" style="left: 5%; top: 10%; animation-delay: 0s;">💕</div>
+        <div class="floating-heart" style="left: 15%; top: 30%; animation-delay: 1s;">💖</div>
+        <div class="floating-heart" style="left: 25%; top: 20%; animation-delay: 2s;">💗</div>
+        <div class="floating-heart" style="left: 35%; top: 40%; animation-delay: 0.5s;">💓</div>
+        <div class="floating-heart" style="left: 45%; top: 15%; animation-delay: 1.5s;">💕</div>
+        <div class="floating-heart" style="left: 55%; top: 35%; animation-delay: 2.5s;">💖</div>
+        <div class="floating-heart" style="left: 65%; top: 25%; animation-delay: 3s;">💗</div>
+        <div class="floating-heart" style="left: 75%; top: 45%; animation-delay: 0.8s;">💓</div>
+        <div class="floating-heart" style="left: 85%; top: 20%; animation-delay: 1.8s;">💕</div>
+        <div class="floating-heart" style="left: 95%; top: 30%; animation-delay: 2.8s;">💖</div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white bg-opacity-90 backdrop-blur-sm z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-2xl font-bold text-pink-600 dancing-font">💕Happiest Birthday Bubu 💕</div>
+                <div class="flex space-x-6">
+                    <a href="#home" class="nav-link text-pink-600 hover:text-pink-800 font-medium">Home</a>
+                    <a href="#wishes" class="nav-link text-pink-600 hover:text-pink-800 font-medium">Wishes</a>
+                    <a href="#memories" class="nav-link text-pink-600 hover:text-pink-800 font-medium">Memories</a>
+                    <a href="#celebration" class="nav-link text-pink-600 hover:text-pink-800 font-medium">Celebration</a>
+                    <a href="special-message.html" class="nav-link text-pink-600 hover:text-pink-800 font-medium">Special Message</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen gradient-bg-1 flex items-center justify-center relative overflow-hidden">
+        <div class="text-center z-10 px-4">
+            <h1 class="text-6xl md:text-8xl font-bold dancing-font text-white glow-text slide-in-up mb-8">
+                Happy Birthday Madam Jii!
+            </h1>
+            <p class="text-xl md:text-2xl text-white mb-8 slide-in-up" style="animation-delay: 0.5s;">
+                To the most beautiful and Purest soul I know!💖 Let's Celebrate 26th Of July 2025!
+            </p>
+            <div class="pulse-heart mb- w-78 h-48 mx-auto">
+            <img src="images1.jpg" alt="Birthday Cake" class="w-full h-full object-contain" id="main-cake">
+            </div>
+            <button onclick="scrollToWishes()" class="bg-white text-pink-600 px-8 py-4 rounded-full font-semibold hover:bg-pink-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Make a Wish my love😁!
+            </button>
+        </div>
+        
+        <!-- Animated decorative elements -->
+        <div class="absolute top-20 left-10 text-4xl bounce-slow">🎈</div>
+        <div class="absolute top-40 right-20 text-4xl bounce-slow" style="animation-delay: 1s;">🎁</div>
+        <div class="absolute bottom-20 left-20 text-4xl bounce-slow" style="animation-delay: 2s;">🌟</div>
+        <div class="absolute bottom-40 right-10 text-4xl bounce-slow" style="animation-delay: 0.5s;">🎊</div>
+        <div class="absolute top-1/4 left-1/4 text-4xl bounce-slow" style="animation-delay: 1.5s;">💐</div>
+        <div class="absolute bottom-1/3 right-1/4 text-4xl bounce-slow" style="animation-delay: 0.8s;">🌸</div>
+    </section>
+    
+    <!-- Birthday Wishes Section -->
+    <section id="wishes" class="min-h-screen gradient-bg-2 py-20">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-5xl font-bold text-center text-pink-700 dancing-font mb-16 slide-in-up">
+                Birthday Wishes Cutie 😘🌸
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Wish Card 1 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                    <div class="text-4xl text-center mb-4">🌹</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-4 text-center dancing-font">Beautiful Soul</h3>
+                    <p class="text-gray-700 text-center leading-relaxed">
+                        On your special day, I want you to know how much joy you bring into my life. 
+                        Your smile is cure to all my problems Ek baar smile kro chalo😍!
+                    </p>
+                </div>
+                
+                <!-- Wish Card 2 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                    <div class="text-4xl text-center mb-4">🌈</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-4 text-center dancing-font">Endless Dreams</h3>
+                    <p class="text-gray-700 text-center leading-relaxed">
+                        May all your dreams come true and your wishes too. 
+                        Tum bht saari khushi deserve krti ho main promise krta hu main wo saari khushiyan dunga tumko❤️.
+                    </p>
+                </div>
+                
+                <!-- Wish Card 3 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                    <div class="text-4xl text-center mb-4">💝</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-4 text-center dancing-font">Forever Love</h3>
+                    <p class="text-gray-700 text-center leading-relaxed">
+                        Another year of being absolutely amazing! Thank you for being you all the time - 
+                        kind, loving, caring, understanding and absolutely wonderful! 💕
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Additional Wishes -->
+            <div class="grid md:grid-cols-3 gap-8 mt-8">
+                <!-- Wish Card 4 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                    <div class="text-4xl text-center mb-4">✨</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-4 text-center dancing-font">Magical Moments</h3>
+                    <p class="text-gray-700 text-center leading-relaxed">
+                        May this year bring you countless magical moments and unforgettable memories!
+                        You make every day special Forever♾️. 🎇
+                    </p>
+                </div>
+                
+                <!-- Wish Card 5 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                    <div class="text-4xl text-center mb-4">🌠</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-4 text-center dancing-font">Shining Star</h3>
+                    <p class="text-gray-700 text-center leading-relaxed">
+                        You shine brighter than any star in the sky (Like you do Meri jaan🤩)! Keep being your amazing self and
+                        I will keep falling in love with you . 💫
+                    </p>
+                </div>
+                
+                <!-- Wish Card 6 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                    <div class="text-4xl text-center mb-4">💘</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-4 text-center dancing-font">Heartbeat</h3>
+                    <p class="text-gray-700 text-center leading-relaxed">
+                        You make my heart skip a beat every time I see you. Happy birthday to the
+                        one who owns my heart completely! 💓
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Memories Section -->
+    <section id="memories" class="min-h-screen gradient-bg-3 py-20">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-5xl font-bold text-center text-pink-700 dancing-font mb-16 slide-in-up">
+                Our Beautiful Memories 📸 Till now😏
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Memory Card 1 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-pink-300 to-purple-300 flex items-center justify-center relative">
+                        <img src="images2.jpg" alt="Our first meeting" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">💕</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">First Meeting</h3>
+                        <p class="text-gray-600">The day that changed everything - when our eyes first met! And this meet was the Best✨</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#FirstTime</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Nervous</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#LoveAtFirstSight</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Card 2 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-yellow-300 to-orange-300 flex items-center justify-center relative">
+                        <img src="images3.jpg" alt="Sunset walk together" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">😘</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">First Dinner</h3>
+                        <p class="text-gray-600">All those magical evenings we spent together! 🌅</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Romantic</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#GoldenHour</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Card 3 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-green-300 to-blue-300 flex items-center justify-center relative">
+                        <img src="images4.jpg" alt="Our crazy adventure" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">💖</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">Crazy Adventures</h3>
+                        <p class="text-gray-600">Jaha kahi bhi hum saath me ghoome sbse mast h wo jagah! 🎪</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Adventure</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#FunTimes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Card 4 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-purple-300 to-pink-300 flex items-center justify-center relative">
+                        <img src="images5.bmp" alt="Sweet moment together" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">💗</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">Sweet Moments</h3>
+                        <p class="text-gray-600">All the little things that make life so sweet only because of your presence! 🧁</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Dessert</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#SweetTooth</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Card 5 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-red-300 to-pink-300 flex items-center justify-center relative">
+                        <img src="images6.jpg" alt="Heart to heart moment" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">😍</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">Heart to Heart</h3>
+                        <p class="text-gray-600">Deep conversations that touch the soul and make us realise we are made for each other! 💝</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#DeepTalk</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Connection</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Card 6 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-indigo-300 to-purple-300 flex items-center justify-center relative">
+                        <img src="images7.bmp" alt="Our future dreams" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">💕</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">Future Dreams</h3>
+                        <p class="text-gray-600">All the amazing memories yet to be made in the best Future together😘! ✨</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Future</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Dreams</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Card 7 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-blue-300 to-teal-300 flex items-center justify-center relative">
+                        <img src="images8.bmp" alt="Beach day together" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">💙</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">City Ghoomna</h3>
+                        <p class="text-gray-600">Beautiful city, chaos, lights and your beautiful smile! 😍</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Beach</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Summer</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Card 8 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-orange-300 to-red-300 flex items-center justify-center relative">
+                        <img src="images9.jpg" alt="Movie night together" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">❤️</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">Night Walks</h3>
+                        <p class="text-gray-600">You, me and miles to walk - perfect combination! ♾️❤️</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Movies</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Cuddles</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Memory Card 9 -->
+                <div class="card-hover bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl">
+                    <div class="photo-frame h-48 bg-gradient-to-br from-pink-300 to-rose-300 flex items-center justify-center relative">
+                        <img src="images10.jpg" alt="Holiday together" class="w-full h-full object-cover">
+                        <div class="photo-love-overlay">💚</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-pink-700 mb-2 dancing-font">Holiday Magic</h3>
+                        <p class="text-gray-600">Celebrating our personal times together! 😉😁</p>
+                        <div class="flex justify-start mt-3 space-x-1">
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Holidays</span>
+                            <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">#Celebration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Cake Cutting & Celebration Section -->
+    <section id="celebration" class="min-h-screen celebration-bg py-20 relative overflow-hidden">
+        <!-- Balloons -->
+        <div class="balloon" style="left: 5%; top: 10%; animation-delay: 0s;">🎈</div>
+        <div class="balloon" style="left: 15%; top: 20%; animation-delay: 1s;">🎈</div>
+        <div class="balloon" style="left: 25%; top: 15%; animation-delay: 2s;">🎈</div>
+        <div class="balloon" style="left: 75%; top: 10%; animation-delay: 0.5s;">🎈</div>
+        <div class="balloon" style="left: 85%; top: 20%; animation-delay: 1.5s;">🎈</div>
+        <div class="balloon" style="left: 95%; top: 15%; animation-delay: 2.5s;">🎈</div>
+        <div class="balloon" style="left: 10%; top: 70%; animation-delay: 0.8s;">🎈</div>
+        <div class="balloon" style="left: 20%; top: 65%; animation-delay: 1.8s;">🎈</div>
+        <div class="balloon" style="left: 90%; top: 75%; animation-delay: 0.3s;">🎈</div>
+        <div class="balloon" style="left: 80%; top: 60%; animation-delay: 2.8s;">🎈</div>
+        
+        <!-- Confetti -->
+        <div class="confetti" style="left: 5%; background: #ff69b4; animation-delay: 0s;"></div>
+        <div class="confetti" style="left: 15%; background: #ff1493; animation-delay: 0.5s;"></div>
+        <div class="confetti" style="left: 25%; background: #ffd700; animation-delay: 1s;"></div>
+        <div class="confetti" style="left: 35%; background: #32cd32; animation-delay: 1.5s;"></div>
+        <div class="confetti" style="left: 45%; background: #ff4500; animation-delay: 2s;"></div>
+        <div class="confetti" style="left: 55%; background: #9370db; animation-delay: 0.3s;"></div>
+        <div class="confetti" style="left: 65%; background: #ff69b4; animation-delay: 0.8s;"></div>
+        <div class="confetti" style="left: 75%; background: #00bfff; animation-delay: 1.3s;"></div>
+        <div class="confetti" style="left: 85%; background: #ff1493; animation-delay: 1.8s;"></div>
+        <div class="confetti" style="left: 95%; background: #ff69b4; animation-delay: 2.3s;"></div>
+        
+        <!-- Streamers -->
+        <div class="streamer" style="left: 10%; animation-delay: 0.2s;"></div>
+        <div class="streamer" style="left: 30%; animation-delay: 1.2s;"></div>
+        <div class="streamer" style="left: 50%; animation-delay: 0.7s;"></div>
+        <div class="streamer" style="left: 70%; animation-delay: 1.7s;"></div>
+        <div class="streamer" style="left: 90%; animation-delay: 2.2s;"></div>
+        
+        <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
+            <h2 class="text-5xl font-bold text-white dancing-font mb-16 slide-in-up glow-text">
+                🎂 Cake Cutting ka Time ho gya chalo😉! 🎂
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Cake Section -->
+                <div class="bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl p-8 shadow-xl card-hover">
+                    <div class="text-8xl mb-4 pulse-heart">🎂</div>
+                    <h3 class="text-3xl font-bold text-pink-700 mb-4 dancing-font">Make Your Wish!</h3>
+                    <p class="text-gray-700 mb-6">
+                        Thodi bht ladai jhagda chalta rahega 😁 or main sorry bolta rahunga Puri life aise hi guzaarni hai saath me khushi khushi💖!
+                        I Love You Meri Moongfali😘😘!!
+                        Close your eyes, make a wish, and let's celebrate this amazing day! 
+                        May all your dreams come true! ✨
+                        
+                    </p>
+                    <div class="flex justify-center space-x-4 text-4xl mb-4" id="candles">
+                        <span class="bounce-slow">🕯️</span>
+                        <span class="bounce-slow" style="animation-delay: 0.2s;">🕯️</span>
+                        <span class="bounce-slow" style="animation-delay: 0.4s;">🕯️</span>
+                        <span class="bounce-slow" style="animation-delay: 0.6s;">🕯️</span>
+                        <span class="bounce-slow" style="animation-delay: 0.8s;">🕯️</span>
+                    </div>
+                    <button onclick="blowCandles()" class="bg-pink-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Blow the Candles! 🌬️
+                    </button>
+                </div>
+                
+                <!-- Photo Section -->
+                <div class="space-y-6">
+    <!-- Main Photo Frame -->
+    <div class="photo-frame h-64 flex items-center justify-center relative overflow-hidden">
+        <!-- Replace with your main photo -->
+        <img src="celebration.jpg" alt="Birthday celebration" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div> <!-- Dark overlay for better emoji visibility -->
+        <div class="photo-love-overlay text-3xl">💕</div>
+        <div class="absolute bottom-2 left-2 text-2xl z-10">😘</div>
+        <div class="absolute top-2 right-2 text-2xl z-10">💖</div>
+        <div class="absolute bottom-2 right-2 text-2xl z-10">💋</div>
+    </div>
+    
+    <!-- Secondary Photos Grid -->
+    <div class="grid grid-cols-2 gap-4">
+        <!-- Photo Frame 1 -->
+        <div class="photo-frame h-32 flex items-center justify-center relative overflow-hidden">
+            <!-- Replace with your first secondary photo -->
+            <img src="celebration-1.bmp" alt="Celebration moment" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div class="photo-love-overlay text-xl">💞</div>
+        </div>
+        
+        <!-- Photo Frame 2 -->
+        <div class="photo-frame h-32 flex items-center justify-center relative overflow-hidden">
+            <!-- Replace with your second secondary photo -->
+            <img src="celebration-2.jpg" alt="Special moment" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div class="photo-love-overlay text-xl">😍</div>
+        </div>
+    </div>
+</div>
+            </div>
+            
+            <!-- Celebration Elements -->
+            <div class="mt-16 grid md:grid-cols-4 gap-8">
+                <div class="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl p-6 shadow-xl card-hover">
+                    <div class="text-4xl mb-3">🎉</div>
+                    <h4 class="text-lg font-bold text-pink-700 dancing-font">Party Time</h4>
+                    <p class="text-gray-600 text-sm">Let's celebrate!</p>
+                </div>
+                
+                <div class="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl p-6 shadow-xl card-hover">
+                    <div class="text-4xl mb-3">🎁</div>
+                    <h4 class="text-lg font-bold text-pink-700 dancing-font">Surprise</h4>
+                    <p class="text-gray-600 text-sm">Special gift awaits!</p>
+                </div>
+                
+                <div class="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl p-6 shadow-xl card-hover">
+                    <div class="text-4xl mb-3">💝</div>
+                    <h4 class="text-lg font-bold text-pink-700 dancing-font">Love</h4>
+                    <p class="text-gray-600 text-sm">Forever and always!</p>
+                </div>
+                
+                <div class="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl p-6 shadow-xl card-hover">
+                    <div class="text-4xl mb-3">🌟</div>
+                    <h4 class="text-lg font-bold text-pink-700 dancing-font">Dreams</h4>
+                    <p class="text-gray-600 text-sm">May they come true!</p>
+                </div>
+            </div>
+            
+            <!-- Celebration Countdown -->
+            <div class="mt-16 bg-white bg-opacity-90 backdrop-blur-sm rounded-3xl p-8 shadow-xl card-hover max-w-2xl mx-auto">
+                <h3 class="text-2xl font-bold text-pink-700 mb-4 dancing-font">Celebration Countdown</h3>
+                <div class="flex justify-center space-x-4 text-2xl">
+                    <div class="bg-pink-100 rounded-full w-16 h-16 flex items-center justify-center">🎊</div>
+                    <div class="bg-pink-100 rounded-full w-16 h-16 flex items-center justify-center">🎈</div>
+                    <div class="bg-pink-100 rounded-full w-16 h-16 flex items-center justify-center">🎁</div>
+                    <div class="bg-pink-100 rounded-full w-16 h-16 flex items-center justify-center">🎂</div>
+                </div>
+                 <div class="mt-6">
+                    <a href="celebration.html" class="mt-6 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-full font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Start Celebration! 🎇
+                </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Special Message Link Section -->
+    <section class="min-h-[50vh] gradient-bg-6 flex items-center justify-center relative overflow-hidden">
+        <div class="text-center z-10 px-4">
+            <h2 class="text-4xl md:text-5xl font-bold dancing-font text-white glow-text mb-8">
+                A Special Message Awaits You
+            </h2>
+            <a href="special-message.html" class="inline-block bg-white text-pink-600 px-8 py-4 rounded-full font-semibold hover:bg-pink-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Open Your Special Message 💌
+            </a>
+        </div>
+        
+        <!-- Floating hearts around the button -->
+        <div class="absolute top-1/4 left-1/4 text-4xl bounce-slow">💖</div>
+        <div class="absolute top-1/3 right-1/4 text-4xl bounce-slow" style="animation-delay: 0.5s;">💗</div>
+        <div class="absolute bottom-1/4 left-1/3 text-4xl bounce-slow" style="animation-delay: 1s;">💓</div>
+        <div class="absolute bottom-1/3 right-1/3 text-4xl bounce-slow" style="animation-delay: 1.5s;">💕</div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-pink-900 text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-xl dancing-font mb-4">Made with 💖 for the most special person (Meri jaan🤩) in my life</p>
+            <p class="text-sm opacity-80">© By Gaurav Tiwari (Jo humesha Harshi ka hi rahega😏)| All my love forever</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Custom cursor with trail effect
+        const cursor = document.querySelector('.cursor');
+        const cursorTrail = [];
+        const trailLength = 20;
+        
+        // Initialize cursor trail elements
+        for (let i = 0; i < trailLength; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            cursorTrail.push({
+                element: trail,
+                x: 0,
+                y: 0,
+                delay: i * 0.03
+            });
+        }
+        
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            // Update main cursor position
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // Update trail positions with delay
+            cursorTrail.forEach((trail, index) => {
+                setTimeout(() => {
+                    trail.element.style.left = e.clientX + 'px';
+                    trail.element.style.top = e.clientY + 'px';
+                    
+                    // Randomly create heart particles
+                    if (index % 5 === 0 && Math.random() > 0.7) {
+                        createHeartParticle(e.clientX, e.clientY);
+                    }
+                }, index * 30);
+            });
+        });
+        
+        // Create heart particles
+        function createHeartParticle(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = ['💖', '💗', '💓', '💕', '💞', '💘'][Math.floor(Math.random() * 6)];
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            
+            // Remove after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        }
+        
+        // Scroll to wishes section
+        function scrollToWishes() {
+            document.getElementById('wishes').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Blow candles animation
+        function blowCandles() {
+            const candles = document.querySelectorAll('#candles span');
+            candles.forEach((candle, index) => {
+                setTimeout(() => {
+                    candle.classList.add('candle-blown');
+                    createConfetti();
+                }, index * 300);
+            });
+            
+            // Play sound (optional)
+            // new Audio('blow.mp3').play();
+            
+            // Show celebration message after candles are blown
+            setTimeout(() => {
+                alert('Happy Birthday my love! 🎉🎂 May all your wishes come true!');
+            }, 2000);
+        }
+        
+        // Create confetti effect
+        function createConfetti() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#ff69b4', '#ff1493', '#ffd700', '#32cd32', '#00bfff', '#9370db'][Math.floor(Math.random() * 6)];
+                    confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+                    confetti.style.animationDelay = Math.random() + 's';
+                    document.body.appendChild(confetti);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 4000);
+                }, i * 100);
+            }
+        }
+        
+        // Start celebration with more effects
+        function startCelebration() {
+            // Create lots of balloons
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const balloon = document.createElement('div');
+                    balloon.className = 'balloon';
+                    balloon.innerHTML = ['🎈', '🎈', '🎈', '🎈', '🎈', '🎈', '🎈', '🎈', '🎈', '🎈', '🎈', '🎈'][Math.floor(Math.random() * 12)];
+                    balloon.style.left = Math.random() * 100 + '%';
+                    balloon.style.top = Math.random() * 100 + '%';
+                    balloon.style.animationDuration = (5 + Math.random() * 10) + 's';
+                    balloon.style.animationDelay = Math.random() + 's';
+                    document.body.appendChild(balloon);
+                    
+                    // Remove after animation (though they're infinite)
+                }, i * 200);
+            }
+            
+            // Create lots of confetti
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    createConfetti();
+                }, i * 50);
+            }
+            
+            // Create streamers
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const streamer = document.createElement('div');
+                    streamer.className = 'streamer';
+                    streamer.style.left = Math.random() * 100 + '%';
+                    streamer.style.animationDuration = (2 + Math.random() * 3) + 's';
+                    streamer.style.animationDelay = Math.random() + 's';
+                    streamer.style.background = ['#ff69b4', '#ff1493', '#ffd700', '#32cd32', '#00bfff', '#9370db'][Math.floor(Math.random() * 6)];
+                    document.body.appendChild(streamer);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        streamer.remove();
+                    }, 4000);
+                }, i * 150);
+            }
+            
+            // Show celebration message
+            setTimeout(() => {
+                alert('🎉🎊 Happy Birthday Celebration! 🎊🎉\nLet the party begin!');
+            }, 1000);
+        }
+        
+        // Initialize animations on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add any initialization code if needed
+        });
+        // ===== COUNTDOWN TO JULY 26TH =====
+let countdownInterval;
+const countdownOverlay = document.getElementById('countdown-overlay');
+
+// Set target date to July 26, 2025 at 12:00 AM
+const defaultTargetDate = new Date('July 26, 2025 00:00:00').getTime();
+
+// Load saved target time or use default
+let targetTime = localStorage.getItem('countdownTarget') || defaultTargetDate;
+
+// Start the countdown
+function startCountdown() {
+    document.body.style.overflow = 'hidden'; // Disable scrolling
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = targetTime - now;
+    
+    if (distance <= 0) {
+        clearInterval(countdownInterval);
+        // Celebration time!
+        countdownOverlay.style.opacity = '0';
+        setTimeout(() => {
+            countdownOverlay.style.display = 'none';
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }, 500);
+        localStorage.removeItem('countdownTarget');
+    } else {
+        // Calculate time units
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Update display
+        document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+}
+
+// ===== ADMIN CONTROLS =====
+function toggleAdminPanel() {
+    document.getElementById('admin-panel').classList.toggle('hidden');
+}
+
+function updateCountdownEnd() {
+    const newDateTime = document.getElementById('new-date-time').value;
+    if (!newDateTime) {
+        alert("Please select a date and time!");
+        return;
+    }
+    
+    targetTime = new Date(newDateTime).getTime();
+    localStorage.setItem('countdownTarget', targetTime);
+    
+    // Restart countdown
+    clearInterval(countdownInterval);
+    startCountdown();
+    
+    alert(`Countdown updated to ${new Date(targetTime).toLocaleString()}`);
+    toggleAdminPanel();
+}
+
+function skipCountdown() {
+    if (confirm("Are you sure you want to unlock the website now?")) {
+        targetTime = new Date().getTime();
+        localStorage.removeItem('countdownTarget');
+        clearInterval(countdownInterval);
+        updateCountdown();
+    }
+}
+
+// Secret key combo: Ctrl+Shift+Enter
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'Enter') {
+        e.preventDefault(); // Prevent any default form submission behavior
+        toggleAdminPanel();
+    }
+});
+
+
+
+// Initialize countdown
+startCountdown();
+    </script>
+</body>
+</html>

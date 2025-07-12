@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.jpg" type="image/x-icon">
+    <title>Special Birthday Message 💌</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .dancing-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        /* Floating hearts */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            color: rgba(255,182,193,0.6);
+            font-size: 24px;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-40px) rotate(120deg); }
+            66% { transform: translateY(-20px) rotate(240deg); }
+        }
+        
+        /* Heart beat animation */
+        .heart-beat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+        
+        /* Glowing text effect */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(255,182,193,0.8);
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="special-message-bg min-h-screen flex items-center justify-center p-4">
+    <!-- Floating Hearts Background -->
+    <div class="floating-hearts">
+        <div class="floating-heart" style="left: 5%; top: 10%; animation-delay: 0s;">💕</div>
+        <div class="floating-heart" style="left: 15%; top: 30%; animation-delay: 1s;">💖</div>
+        <div class="floating-heart" style="left: 25%; top: 20%; animation-delay: 2s;">💗</div>
+        <div class="floating-heart" style="left: 35%; top: 40%; animation-delay: 0.5s;">💓</div>
+        <div class="floating-heart" style="left: 45%; top: 15%; animation-delay: 1.5s;">💕</div>
+        <div class="floating-heart" style="left: 55%; top: 35%; animation-delay: 2.5s;">💖</div>
+        <div class="floating-heart" style="left: 65%; top: 25%; animation-delay: 3s;">💗</div>
+        <div class="floating-heart" style="left: 75%; top: 45%; animation-delay: 0.8s;">💓</div>
+        <div class="floating-heart" style="left: 85%; top: 20%; animation-delay: 1.8s;">💕</div>
+        <div class="floating-heart" style="left: 95%; top: 30%; animation-delay: 2.8s;">💖</div>
+    </div>
+    
+    <!-- Special Message Envelope -->
+    <div class="message-envelope max-w-2xl w-full rounded-3xl p-8 md:p-12 relative overflow-hidden z-10">
+        <div class="absolute top-4 right-4 heart-beat text-4xl">💌</div>
+        
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-pink-700 dancing-font mb-8 glow-text">
+            My Dearest Jaanu😘,
+        </h1>
+        
+        <div class="space-y-6 text-gray-700 leading-relaxed">
+            <p class="text-lg">
+                Babu first of all I love you the most ❤😘 tum meri jaan ho ❤😁 mera babu ho🤩 meri cutie pie ho 😘 meri hottie ho 🤤😳 mujhko surprise deti ho mera sbse jyada khayal rkhti ho🫂 (Hug h 😒) sbse jyada tum mujhko pyaar krti ho😍.
+
+            </p>
+            
+            <p class="text-lg">
+                Ye lo tumhara gulaab 🌹😁😘 Sorry jo bhi galti hoti h uske liye 😘😁 jaise maaf kr deti ho waise hi krti raho bs 😁 baaki sb main theek rakhunga or karunga 😌.
+            </p>
+            
+            <p class="text-lg">
+                Tumhari bht yaad aati h bubu 😘but har baar batata nhi hu 🥺 kyuki main tumko tension nhi dena chahta hu ki meri wajah se pareshan ho tum❤ pr koi baat nhi kuch time ki hi h ye dooriyan 😏😌 uske baad aayega humara pre planned amazing future 😍 tb time sirf humara hoga😍😘.
+            </p>
+            
+            <p class="text-lg">
+                Happy Birthday cutu 😘 bht khush raho jaise ho or hum waise bhi humesha saath hi rahenge 😏 always together forever ♾❤.
+                Thank you for being you - kind, loving, funny, smart, and absolutely perfect in every way. I fall in love with you more each day, and I can't wait to create countless more memories together.
+            </p>
+            
+            <div class="text-center mt-8">
+                <div class="heart-beat text-6xl inline-block mb-4">💖</div>
+                <p class="text-2xl dancing-font text-pink-600">
+                    Happy Birthday, my love! Forever yours,
+                </p>
+                <p class="text-xl dancing-font text-pink-500 mt-2">
+                    Gaurav Tiwari [Only Yours]
+                </p>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-4 left-4 text-2xl">💕</div>
+        <div class="absolute top-4 left-4 text-2xl">💗</div>
+        <div class="absolute bottom-4 right-4 text-2xl">💓</div>
+    </div>
+    
+    <!-- Back to Home Button -->
+    <a href="index.html" class="fixed bottom-8 right-8 bg-pink-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg z-50">
+        Back to Celebration 🎉
+    </a>
+    
+    <script>
+        // Create floating hearts occasionally
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = ['💖', '💗', '💓', '💕', '💞', '💘'][Math.floor(Math.random() * 6)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.animationDuration = (5 + Math.random() * 10) + 's';
+            heart.style.animationDelay = Math.random() + 's';
+            document.querySelector('.floating-hearts').appendChild(heart);
+            
+            // Remove after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 15000);
+        }, 1000);
+    </script>
+</body>
+</html>
